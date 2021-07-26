@@ -16,8 +16,6 @@ type PubSubMessage struct {
 }
 
 func handle(w http.ResponseWriter, r *http.Request) {
-	// TODO: AUTHENTICATE ORIGIN OF PUB/SUB
-	// https://cloud.google.com/run/docs/tutorials/pubsub#integrating-pubsub
 	var m PubSubMessage
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
