@@ -5,21 +5,25 @@ import (
 )
 
 func common(t *testing.T, data *[]byte, expectedMethod Method) {
-	expectedInstanceId := "6370518298048747909"
+	expectedProjectId := "training-main-317518"
 	expectedZone := "us-central1-a"
-	gotMethod, gotInstance, err := parse(data)
+	expectedInstanceId := "6370518298048747909"
+	gotMethod, gotProjectId, gotZone, gotInstanceId, err := parse(data)
 	if err != nil {
 		t.Error("err != nil")
 		return
 	}
 	if *gotMethod != expectedMethod {
-		t.Errorf("gotMethod = %d; want %d", gotMethod, expectedMethod)
+		t.Errorf("gotMethod = %d; want %d", *gotMethod, expectedMethod)
 	}
-	if gotInstance.InstanceId != expectedInstanceId {
-		t.Errorf("gotInstance.InstanceId = %s; want %s", gotInstance.InstanceId, expectedInstanceId)
+	if *gotProjectId != expectedProjectId {
+		t.Errorf("gotZone = %s; want %s", *gotZone, expectedZone)
 	}
-	if gotInstance.Zone != expectedZone {
-		t.Errorf("gotInstance.Zone = %s; want %s", gotInstance.Zone, expectedZone)
+	if *gotZone != expectedZone {
+		t.Errorf("gotZone = %s; want %s", *gotZone, expectedZone)
+	}
+	if *gotInstanceId != expectedInstanceId {
+		t.Errorf("goInstancetId = %s; want %s", *gotInstanceId, expectedInstanceId)
 	}
 }
 

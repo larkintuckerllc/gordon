@@ -17,8 +17,9 @@ type Data struct {
 	} `json:"protoPayload"`
 	Resource struct {
 		Labels struct {
-			InstanceId string `json:"instance_id"`
+			ProjectId  string `json:"project_id"`
 			Zone       string `json:"zone"`
+			InstanceId string `json:"instance_id"`
 		} `json:"labels"`
 	} `json:"resource"`
 }
@@ -30,22 +31,17 @@ const (
 	Deallocate
 )
 
-type Instance struct {
-	InstanceId string
-	Zone       string
-}
-
-func parse(data *[]byte) (*Method, *Instance, error) {
+func parse(data *[]byte) (*Method, *string, *string, *string, error) {
 	var p PubSubMessage
 	var d Data
 	var m Method
 	err := json.Unmarshal(*data, &p)
 	if err != nil {
-		return nil, nil, err
+		return nil, nil, nil, nil, err
 	}
 	err = json.Unmarshal(p.Message.Data, &d)
 	if err != nil {
-		return nil, nil, err
+		return nil, nil, nil, nil, err
 	}
 	switch d.ProtoPayload.MethodName {
 	case "beta.compute.instances.insert":
@@ -57,8 +53,7 @@ func parse(data *[]byte) (*Method, *Instance, error) {
 	case "v1.compute.instances.delete":
 		m = Deallocate
 	default:
-		return nil, nil, errors.New("invalid MethodName")
+		return nil, nil, nil, nil, errors.New("invalid MethodName")
 	}
-	i := Instance{d.Resource.Labels.InstanceId, d.Resource.Labels.Zone}
-	return &m, &i, nil
+	return &m, &d.Resource.Labels.ProjectId, &d.Resource.Labels.Zone, &d.Resource.Labels.InstanceId, nil
 }
