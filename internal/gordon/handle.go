@@ -13,8 +13,12 @@ func handle(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Bad Request", http.StatusBadRequest)
 		return
 	}
-	// msg, err := parse(body)
-	// TODO: HANDLE
-	entry := string(body)
-	log.Println(entry)
+	method, instance, err := parse(&body)
+	if err != nil {
+		log.Printf("parse: %v", err)
+		http.Error(w, "Bad Request", http.StatusBadRequest)
+		return
+	}
+	log.Println(method)
+	log.Println(instance)
 }
