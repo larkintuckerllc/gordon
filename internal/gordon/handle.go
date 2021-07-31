@@ -26,6 +26,6 @@ func handle(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Bad Request", http.StatusBadRequest)
 		return
 	}
-	log.Println(method)
-	fmt.Println(ip)
+	fmt.Println(*method)
+	fmt.Println(*ip)
 }
