@@ -22,6 +22,7 @@ func handle(w http.ResponseWriter, r *http.Request) {
 	}
 	switch *method {
 	case Insert, Start:
+		// Insert: Cloud Pub/Sub set with 30 second "Minimum backoff duration" minimizes errors
 		ip, err := getIP(*projectId, *zone, *instanceName)
 		if err != nil {
 			log.Printf("getIp: %v", err)
