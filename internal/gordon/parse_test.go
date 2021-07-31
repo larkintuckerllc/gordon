@@ -7,8 +7,8 @@ import (
 func common(t *testing.T, data *[]byte, expectedMethod Method) {
 	expectedProjectId := "training-main-317518"
 	expectedZone := "us-central1-a"
-	expectedInstanceId := "6370518298048747909"
-	gotMethod, gotProjectId, gotZone, gotInstanceId, err := parse(data)
+	expectedInstanceName := "instance-1"
+	gotMethod, gotProjectId, gotZone, gotInstanceName, err := parse(data)
 	if err != nil {
 		t.Error("err != nil")
 		return
@@ -17,13 +17,13 @@ func common(t *testing.T, data *[]byte, expectedMethod Method) {
 		t.Errorf("gotMethod = %d; want %d", *gotMethod, expectedMethod)
 	}
 	if *gotProjectId != expectedProjectId {
-		t.Errorf("gotZone = %s; want %s", *gotZone, expectedZone)
+		t.Errorf("gotProjectId = %s; want %s", *gotProjectId, expectedProjectId)
 	}
 	if *gotZone != expectedZone {
 		t.Errorf("gotZone = %s; want %s", *gotZone, expectedZone)
 	}
-	if *gotInstanceId != expectedInstanceId {
-		t.Errorf("goInstancetId = %s; want %s", *gotInstanceId, expectedInstanceId)
+	if *gotInstanceName != expectedInstanceName {
+		t.Errorf("goInstancetName = %s; want %s", *gotInstanceName, expectedInstanceName)
 	}
 }
 

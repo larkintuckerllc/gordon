@@ -7,14 +7,14 @@ import (
 	"google.golang.org/api/compute/v1"
 )
 
-func getIP(projectId string, zone string, instanceId string) (*string, error) {
+func getIP(projectId string, zone string, instanceName string) (*string, error) {
 	ctx := context.Background()
 	computeService, err := compute.NewService(ctx)
 	if err != nil {
 		return nil, err
 	}
 	instanceService := compute.NewInstancesService(computeService)
-	instanceGetCall := instanceService.Get(projectId, zone, instanceId)
+	instanceGetCall := instanceService.Get(projectId, zone, instanceName)
 	instance, err := instanceGetCall.Do()
 	if err != nil {
 		return nil, err

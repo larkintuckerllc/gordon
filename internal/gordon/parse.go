@@ -3,6 +3,7 @@ package gordon
 import (
 	"encoding/json"
 	"errors"
+	"strings"
 )
 
 type PubSubMessage struct {
@@ -13,13 +14,13 @@ type PubSubMessage struct {
 
 type Data struct {
 	ProtoPayload struct {
-		MethodName string `json:"methodName"`
+		MethodName   string `json:"methodName"`
+		ResourceName string `json:"resourceName"`
 	} `json:"protoPayload"`
 	Resource struct {
 		Labels struct {
-			ProjectId  string `json:"project_id"`
-			Zone       string `json:"zone"`
-			InstanceId string `json:"instance_id"`
+			ProjectId string `json:"project_id"`
+			Zone      string `json:"zone"`
 		} `json:"labels"`
 	} `json:"resource"`
 }
@@ -55,5 +56,7 @@ func parse(data *[]byte) (*Method, *string, *string, *string, error) {
 	default:
 		return nil, nil, nil, nil, errors.New("invalid MethodName")
 	}
-	return &m, &d.Resource.Labels.ProjectId, &d.Resource.Labels.Zone, &d.Resource.Labels.InstanceId, nil
+	split := strings.Split(d.ProtoPayload.ResourceName, "/")
+	instanceName := split[len(split)-1]
+	return &m, &d.Resource.Labels.ProjectId, &d.Resource.Labels.Zone, &instanceName, nil
 }
