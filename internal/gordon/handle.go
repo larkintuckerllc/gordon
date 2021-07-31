@@ -20,12 +20,24 @@ func handle(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Bad Request", http.StatusBadRequest)
 		return
 	}
-	ip, err := getIP(*projectId, *zone, *instanceName)
-	if err != nil {
-		log.Printf("getIp: %v", err)
+	switch *method {
+	case Insert, Start:
+		ip, err := getIP(*projectId, *zone, *instanceName)
+		if err != nil {
+			log.Printf("getIp: %v", err)
+			http.Error(w, "Bad Request", http.StatusBadRequest)
+			return
+		}
+		// TODO: CREATE RECORDS
+		fmt.Println(*ip)
+	case Stop:
+		// TODO: DELETE RECORDS
+		fmt.Println(*instanceName)
+	case Delete:
+		// TODO: DELETE RECORDS (OPTIONAL)
+		fmt.Println(*instanceName)
+	default:
+		log.Print("switch *method")
 		http.Error(w, "Bad Request", http.StatusBadRequest)
-		return
 	}
-	fmt.Println(*method)
-	fmt.Println(*ip)
 }

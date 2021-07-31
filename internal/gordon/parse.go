@@ -28,8 +28,10 @@ type Data struct {
 type Method int
 
 const (
-	Allocate Method = iota
-	Deallocate
+	Insert Method = iota
+	Stop
+	Start
+	Delete
 )
 
 func parse(data *[]byte) (*Method, *string, *string, *string, error) {
@@ -46,13 +48,13 @@ func parse(data *[]byte) (*Method, *string, *string, *string, error) {
 	}
 	switch d.ProtoPayload.MethodName {
 	case "beta.compute.instances.insert":
-		m = Allocate
+		m = Insert
 	case "v1.compute.instances.stop":
-		m = Deallocate
+		m = Stop
 	case "v1.compute.instances.start":
-		m = Allocate
+		m = Start
 	case "v1.compute.instances.delete":
-		m = Deallocate
+		m = Delete
 	default:
 		return nil, nil, nil, nil, errors.New("invalid MethodName")
 	}
