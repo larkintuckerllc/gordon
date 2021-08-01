@@ -29,7 +29,7 @@ func handle(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Bad Request", http.StatusBadRequest)
 			return
 		}
-		// TODO: SWITCH TO PARAM
+		// TODO: SWITCH TO PARAM ON PROJECT
 		err = createRecords(*projectId, *instanceName, *ip)
 		if err != nil {
 			log.Printf("createRecords: %v", err)
