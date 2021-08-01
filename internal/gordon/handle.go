@@ -43,8 +43,5 @@ func handle(w http.ResponseWriter, r *http.Request) {
 	case Delete:
 		// TODO: DELETE RECORDS (OPTIONAL)
 		fmt.Println(*instanceName)
-	default:
-		log.Print("switch *method")
-		http.Error(w, "Bad Request", http.StatusBadRequest)
 	}
 }
