@@ -8,6 +8,7 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
+// main is the entry point for the application.
 func main() {
 	app := &cli.App{
 		Name:  "gordon",

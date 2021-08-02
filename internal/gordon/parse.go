@@ -34,6 +34,8 @@ const (
 	Delete
 )
 
+// parse parses Cloud Pub/Sub messages.
+// It returns the method, Instance Project ID, Instance zone, Instanace name, and any error encountered.
 func parse(data *[]byte) (*Method, *string, *string, *string, error) {
 	var p PubSubMessage
 	var d Data

@@ -7,8 +7,10 @@ import (
 	"google.golang.org/api/dns/v1"
 )
 
+// createRecord creates an A record.
+// It returns any error encountered.
 func createRecord(projectId string, instanceName string, ip string) error {
-	name := fmt.Sprintf("%s.%s", instanceName, dnsName)
+	name := fmt.Sprintf("%s.%s", instanceName, dName)
 	ctx := context.Background()
 	dnsService, err := dns.NewService(ctx)
 	if err != nil {
@@ -21,7 +23,7 @@ func createRecord(projectId string, instanceName string, ip string) error {
 		Ttl:     300,
 		Type:    "A",
 	}
-	resourceRecordSetsCreateCall := resourceRecordSetsService.Create(projectId, zoneName, &resourceRecordSet)
+	resourceRecordSetsCreateCall := resourceRecordSetsService.Create(projectId, zName, &resourceRecordSet)
 	_, err = resourceRecordSetsCreateCall.Do()
 	if err != nil {
 		return err

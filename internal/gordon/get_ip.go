@@ -7,6 +7,8 @@ import (
 	"google.golang.org/api/compute/v1"
 )
 
+// getIP gets the IP address of an instance.
+// It returns the IP address and any error encountered.
 func getIP(projectId string, zone string, instanceName string) (*string, error) {
 	ctx := context.Background()
 	computeService, err := compute.NewService(ctx)

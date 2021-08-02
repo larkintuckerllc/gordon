@@ -7,16 +7,17 @@ import (
 	"google.golang.org/api/dns/v1"
 )
 
-// TODO: DOCUMENT FUNCTIONS
+// getRecord gets an A record.
+// It returns any error encountered
 func getRecord(projectId string, instanceName string) error {
-	name := fmt.Sprintf("%s.%s", instanceName, dnsName)
+	name := fmt.Sprintf("%s.%s", instanceName, dName)
 	ctx := context.Background()
 	dnsService, err := dns.NewService(ctx)
 	if err != nil {
 		return err
 	}
 	resourceRecordSetsService := dns.NewResourceRecordSetsService(dnsService)
-	resourceRecordSetsGetCall := resourceRecordSetsService.Get(projectId, zoneName, name, "A")
+	resourceRecordSetsGetCall := resourceRecordSetsService.Get(projectId, zName, name, "A")
 	_, err = resourceRecordSetsGetCall.Do()
 	if err != nil {
 		return err
