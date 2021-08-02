@@ -7,11 +7,8 @@ import (
 	"google.golang.org/api/dns/v1"
 )
 
-const Zone string = "my-new-zone"
-const Suffix string = ".example.private."
-
 func createRecord(projectId string, instanceName string, ip string) error {
-	name := fmt.Sprintf("%s%s", instanceName, Suffix)
+	name := fmt.Sprintf("%s.%s", instanceName, dnsName)
 	ctx := context.Background()
 	dnsService, err := dns.NewService(ctx)
 	if err != nil {
@@ -24,7 +21,7 @@ func createRecord(projectId string, instanceName string, ip string) error {
 		Ttl:     300,
 		Type:    "A",
 	}
-	resourceRecordSetsCreateCall := resourceRecordSetsService.Create(projectId, Zone, &resourceRecordSet)
+	resourceRecordSetsCreateCall := resourceRecordSetsService.Create(projectId, zoneName, &resourceRecordSet)
 	_, err = resourceRecordSetsCreateCall.Do()
 	if err != nil {
 		return err

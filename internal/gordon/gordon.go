@@ -6,7 +6,14 @@ import (
 	"os"
 )
 
-func Execute() error {
+var projectId string
+var zoneName string
+var dnsName string
+
+func Execute(p string, z string, d string) error {
+	projectId = p
+	zoneName = z
+	dnsName = d
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
