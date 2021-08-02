@@ -7,23 +7,21 @@ import (
 	"google.golang.org/api/dns/v1"
 )
 
-// TODO: PARAM
 // const Zone string = "my-new-zone"
 // const Suffix string = ".example.private."
 
-func getRecord(projectId string, instanceName string) (*string, error) {
+func deleteRecord(projectId string, instanceName string) error {
 	name := fmt.Sprintf("%s%s", instanceName, Suffix)
 	ctx := context.Background()
 	dnsService, err := dns.NewService(ctx)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	resourceRecordSetsService := dns.NewResourceRecordSetsService(dnsService)
-	resourceRecordSetsGetCall := resourceRecordSetsService.Get(projectId, Zone, name, "A")
-	resourceRecordSet, err := resourceRecordSetsGetCall.Do()
+	resourceRecordSetsDeleteCall := resourceRecordSetsService.Delete(projectId, Zone, name, "A")
+	_, err = resourceRecordSetsDeleteCall.Do()
 	if err != nil {
-		return nil, err
+		return err
 	}
-	ip := resourceRecordSet.Rrdatas[0]
-	return &ip, nil
+	return nil
 }
