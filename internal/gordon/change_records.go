@@ -14,6 +14,7 @@ const (
 	Deletion
 )
 
+// TODO: CHANGE TO RRS
 // TODO: PARAM
 const Zone string = "my-new-zone"
 const Suffix string = ".example.private."

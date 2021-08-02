@@ -38,10 +38,13 @@ func handle(w http.ResponseWriter, r *http.Request) {
 		}
 		fmt.Println(*ip)
 	case Stop:
-		// TODO: DELETE RECORDS
+		// TODO: FIND RECORD
+		// TODO: DELETE RECORD
 		fmt.Println(*instanceName)
 	case Delete:
-		// TODO: DELETE RECORDS (OPTIONAL)
+		// TODO: FIND RECORD
+		// TODO: CHECK IF RECORD
+		// TODO: DELETE RECORD
 		fmt.Println(*instanceName)
 	}
 }
