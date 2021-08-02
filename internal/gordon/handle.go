@@ -43,7 +43,16 @@ func handle(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	case Delete:
-		// TODO: CHECK IF RECORD EXISTS FIRST
-		deleteRecord(*projectId, *instanceName)
+		// Delete: Guard in case Instance was stopped first
+		err = getRecord(*projectId, *instanceName)
+		if err != nil {
+			return
+		}
+		err = deleteRecord(*projectId, *instanceName)
+		if err != nil {
+			log.Printf("deleteRecords: %v", err)
+			http.Error(w, "Bad Request", http.StatusBadRequest)
+			return
+		}
 	}
 }
