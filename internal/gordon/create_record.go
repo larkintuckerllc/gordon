@@ -9,7 +9,7 @@ import (
 
 // createRecord creates an A record.
 // It returns any error encountered.
-func createRecord(projectId string, instanceName string, ip string) error {
+func createRecord(instanceName string, ip string) error {
 	name := fmt.Sprintf("%s.%s", instanceName, dName)
 	ctx := context.Background()
 	dnsService, err := dns.NewService(ctx)
@@ -23,7 +23,7 @@ func createRecord(projectId string, instanceName string, ip string) error {
 		Ttl:     300,
 		Type:    "A",
 	}
-	resourceRecordSetsCreateCall := resourceRecordSetsService.Create(projectId, zName, &resourceRecordSet)
+	resourceRecordSetsCreateCall := resourceRecordSetsService.Create(pId, zName, &resourceRecordSet)
 	_, err = resourceRecordSetsCreateCall.Do()
 	if err != nil {
 		return err

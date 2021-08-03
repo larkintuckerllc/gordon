@@ -9,7 +9,7 @@ import (
 
 // deleteRecord deletes an A record.
 // It returns any error encountered.
-func deleteRecord(projectId string, instanceName string) error {
+func deleteRecord(instanceName string) error {
 	name := fmt.Sprintf("%s.%s", instanceName, dName)
 	ctx := context.Background()
 	dnsService, err := dns.NewService(ctx)
@@ -17,7 +17,7 @@ func deleteRecord(projectId string, instanceName string) error {
 		return err
 	}
 	resourceRecordSetsService := dns.NewResourceRecordSetsService(dnsService)
-	resourceRecordSetsDeleteCall := resourceRecordSetsService.Delete(projectId, zName, name, "A")
+	resourceRecordSetsDeleteCall := resourceRecordSetsService.Delete(pId, zName, name, "A")
 	_, err = resourceRecordSetsDeleteCall.Do()
 	if err != nil {
 		return err

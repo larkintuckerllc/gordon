@@ -9,14 +9,14 @@ import (
 
 // getIP gets the IP address of an instance.
 // It returns the IP address and any error encountered.
-func getIP(projectId string, zone string, instanceName string) (*string, error) {
+func getIP(instanceProjectId string, instanceZone string, instanceName string) (*string, error) {
 	ctx := context.Background()
 	computeService, err := compute.NewService(ctx)
 	if err != nil {
 		return nil, err
 	}
 	instanceService := compute.NewInstancesService(computeService)
-	instanceGetCall := instanceService.Get(projectId, zone, instanceName)
+	instanceGetCall := instanceService.Get(instanceProjectId, instanceZone, instanceName)
 	instance, err := instanceGetCall.Do()
 	if err != nil {
 		return nil, err
