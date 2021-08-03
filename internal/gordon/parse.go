@@ -36,17 +36,17 @@ const (
 
 // parse parses Cloud Pub/Sub messages.
 // It returns the method, Instance Project ID, Instance zone, Instanace name, and any error encountered.
-func parse(data *[]byte) (*Method, *string, *string, *string, error) {
+func parse(data *[]byte) (Method, string, string, string, error) {
 	var p PubSubMessage
 	var d Data
 	var m Method
 	err := json.Unmarshal(*data, &p)
 	if err != nil {
-		return nil, nil, nil, nil, err
+		return 0, "", "", "", err
 	}
 	err = json.Unmarshal(p.Message.Data, &d)
 	if err != nil {
-		return nil, nil, nil, nil, err
+		return 0, "", "", "", err
 	}
 	switch d.ProtoPayload.MethodName {
 	case "beta.compute.instances.insert":
@@ -58,9 +58,9 @@ func parse(data *[]byte) (*Method, *string, *string, *string, error) {
 	case "v1.compute.instances.delete":
 		m = Delete
 	default:
-		return nil, nil, nil, nil, errors.New("invalid MethodName")
+		return 0, "", "", "", errors.New("invalid MethodName")
 	}
 	split := strings.Split(d.ProtoPayload.ResourceName, "/")
 	instanceName := split[len(split)-1]
-	return &m, &d.Resource.Labels.ProjectId, &d.Resource.Labels.Zone, &instanceName, nil
+	return m, d.Resource.Labels.ProjectId, d.Resource.Labels.Zone, instanceName, nil
 }

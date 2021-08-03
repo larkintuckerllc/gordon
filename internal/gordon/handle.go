@@ -20,23 +20,23 @@ func handle(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Bad Request", http.StatusBadRequest)
 		return
 	}
-	switch *method {
+	switch method {
 	case Insert, Start:
 		// Insert: Cloud Pub/Sub set with 30 second "Minimum backoff duration" minimizes errors
-		ip, err := getIP(*instanceProjectId, *instanceZone, *instanceName)
+		ip, err := getIP(instanceProjectId, instanceZone, instanceName)
 		if err != nil {
 			log.Printf("getIp: %v", err)
 			http.Error(w, "Bad Request", http.StatusBadRequest)
 			return
 		}
-		err = createRecord(*instanceName, *ip)
+		err = createRecord(instanceName, ip)
 		if err != nil {
 			log.Printf("createRecords: %v", err)
 			http.Error(w, "Bad Request", http.StatusBadRequest)
 			return
 		}
 	case Stop:
-		err = deleteRecord(*instanceName)
+		err = deleteRecord(instanceName)
 		if err != nil {
 			log.Printf("deleteRecords: %v", err)
 			http.Error(w, "Bad Request", http.StatusBadRequest)
@@ -44,11 +44,11 @@ func handle(w http.ResponseWriter, r *http.Request) {
 		}
 	case Delete:
 		// Delete: Guard in case Instance was stopped first
-		err = getRecord(*instanceName)
+		err = getRecord(instanceName)
 		if err != nil {
 			return
 		}
-		err = deleteRecord(*instanceName)
+		err = deleteRecord(instanceName)
 		if err != nil {
 			log.Printf("deleteRecords: %v", err)
 			http.Error(w, "Bad Request", http.StatusBadRequest)
